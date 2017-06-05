@@ -1,6 +1,39 @@
-doctype html
-html
-	head
-		title mySQL To Do
-	body
-		h1 sanity check
+extends layout
+
+block links
+	link(rel='stylesheet', href='/stylesheets/style.css')
+	link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Abel')
+
+
+block content
+	.container
+		.row
+			.col-sm-12.text-center
+				h1 Your ToDo List ...
+				h3 #{message}				
+				form(class="form-inline",action="/addItem",method="post")
+					.form-group
+						.input-group
+							input(type="text",class="form-control",placeholder="New Task",name="newTask")
+						.input-group
+							input(type="date",class="form-control",name="newTaskDate")
+					button.btn.btn-primary(type="submit") Add New Task
+		.row
+			.col-sm-12
+				table.table.table-hover.table-condensed
+					tr
+						th Task Name
+						th Task Due Date
+						th Edit
+						th Delete
+					
+					- for(let i = 0; i < taskArray.length; i++)
+						tr
+							td= taskArray[i].taskName
+							td= taskArray[i].taskDate
+							td
+								a(href="/edit/" +taskArray[i].id)
+									button.btn.btn-warning Edit
+							td
+								a(href="/delete/" +taskArray[i].id)
+									button.btn.btn-danger Delete
